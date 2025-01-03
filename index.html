@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSC Academy</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: white;
+        color: black;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .navbar .logo {
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .navbar .nav-links {
+        display: flex;
+        gap: 15px;
+      }
+      .navbar .nav-links a {
+        color: black;
+        text-decoration: none;
+        padding: 8px 15px;
+        border-radius: 4px;
+        transition: background-color 0.3s, box-shadow 0.3s;
+      }
+      .navbar .nav-links a:hover {
+        background-color: #f0f0f0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      }
+      .navbar .toggle {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+      }
+      .navbar .toggle span {
+        background-color: black;
+        height: 3px;
+        width: 25px;
+        margin: 3px 0;
+      }
+
+      @media (max-width: 768px) {
+        .navbar .nav-links {
+          display: none;
+          flex-direction: column;
+          gap: 10px;
+          position: absolute;
+          top: 60px;
+          right: 20px;
+          background-color: white;
+          padding: 10px;
+          border-radius: 4px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          z-index: 2;
+        }
+        .navbar .nav-links.active {
+          display: flex;
+        }
+        .navbar .toggle {
+          display: flex;
+        }
+      }
+
+      /* .slider {
+        position: relative;
+        max-width: 98%;
+        min-height: 700px;
+        margin: 20px auto;
+        overflow: hidden;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .slider .slides {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        width: 100%;
+      }
+      .slider .slides img {
+        flex-shrink: 0;
+        width: 100%;
+        height: 700px;
+        object-fit: cover;
+      }
+      .slider .navigation {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        transform: translateY(-50%);
+      }
+      .slider .navigation button {
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+        border-radius: 50%;
+        transition: background 0.3s;
+      }
+      .slider .navigation button:hover {
+        background: rgba(0, 0, 0, 0.8);
+      }
+   */
+      /* @media (max-width: 768px) {
+        .slider {
+          max-width: 100%;
+          height: 200px; /* Adjusted height for mobile 
+        }
+      }  */
+
+      .slider {
+        position: relative;
+        max-width: 100%;
+        margin: 20px 20px 20px 20px;
+        overflow: hidden;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        height: 700px; /* Reduced height for a smaller slider */
+      }
+      .slider .slides {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+      }
+      .slider .slides img {
+        flex-shrink: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .slider .navigation {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        transform: translateY(-50%);
+      }
+      .slider .navigation button {
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+        border-radius: 50%;
+        transition: background 0.3s;
+      }
+      .slider .navigation button:hover {
+        background: rgba(0, 0, 0, 0.8);
+      }
+
+      @media (max-width: 768px) {
+        .slider {
+          max-width: 99%;
+          height: 200px; /* Adjusted height for mobile */
+        }
+      }
+
+      /*---Teacher card style----*/
+      .teacher-section {
+        padding: 20px;
+        text-align: center;
+      }
+
+      .teacher-section h1 {
+        font-size: 32px;
+        margin-bottom: 20px;
+      }
+
+      .teacher-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+
+      .teacher-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .teacher-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .teacher-card img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+      }
+
+      .teacher-card .content {
+        padding: 15px;
+      }
+
+      .teacher-card .content h3 {
+        font-size: 20px;
+        margin: 0 0 10px;
+      }
+
+      .teacher-card .content p {
+        font-size: 16px;
+        color: #555;
+        margin: 0;
+      }
+
+      /*-----Course Card-----*/
+      .course-section {
+        padding: 20px;
+        text-align: center;
+      }
+      .course-section h1 {
+        font-size: 32px;
+        margin-bottom: 20px;
+      }
+      .course-section .see-all {
+        text-align: right;
+        margin-bottom: 20px;
+        margin-right: 20px;
+      }
+      .course-section .see-all button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .course-section .see-all button:hover {
+        background-color: #0056b3;
+      }
+      .course-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 20px;
+        padding: 0 20px;
+      }
+      .course-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      .course-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+      .course-card img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+      }
+      .course-card .content {
+        padding: 15px;
+      }
+      .course-card .content h3 {
+        font-size: 20px;
+        margin: 0 0 10px;
+      }
+      .course-card .content p {
+        font-size: 16px;
+        color: #555;
+        margin: 0 0 10px;
+      }
+      .course-card .content .rating {
+        color: #ffd700;
+        margin-bottom: 10px;
+      }
+      .course-card .actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      .course-card .actions button {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .course-card .actions .buy-btn {
+        background-color: #28a745;
+        color: white;
+      }
+      .course-card .actions .buy-btn:hover {
+        background-color: #218838;
+      }
+      .course-card .actions .demo-btn {
+        background-color: #ffc107;
+        color: black;
+      }
+      .course-card .actions .demo-btn:hover {
+        background-color: #e0a800;
+      }
+
+      .description {
+        text-align: justify;
+      }
+
+      /* Responsive Media Queries */
+      @media screen and (max-width: 1200px) {
+        .course-section h1 {
+          font-size: 28px;
+        }
+        .course-card .content h3 {
+          font-size: 18px;
+        }
+        .course-card .content p {
+          font-size: 14px;
+        }
+      }
+
+      @media screen and (max-width: 992px) {
+        .course-section .see-all button {
+          padding: 8px 12px;
+          font-size: 14px;
+        }
+        .course-card img {
+          height: 200px;
+        }
+        .course-card .content {
+          padding: 10px;
+        }
+        .course-card .content h3 {
+          font-size: 16px;
+        }
+        .course-card .content p {
+          font-size: 13px;
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        .course-cards {
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+        .course-section h1 {
+          font-size: 24px;
+        }
+      }
+
+      @media screen and (max-width: 576px) {
+        .course-cards {
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+        .course-card img {
+          height: 180px;
+        }
+        .course-section .see-all {
+          text-align: center;
+          margin-right: 0;
+        }
+        .course-card .content {
+          padding: 8px;
+        }
+        .course-card .actions button {
+          padding: 8px;
+          font-size: 14px;
+        }
+      }
+
+      @media screen and (max-width: 400px) {
+        .course-section h1 {
+          font-size: 20px;
+        }
+        .course-card .content h3 {
+          font-size: 14px;
+        }
+        .course-card .content p {
+          font-size: 12px;
+        }
+        .course-card .actions button {
+          padding: 6px;
+          font-size: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo">CSC Academy</div>
+      <div class="toggle" id="toggleButton">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="nav-links" id="navLinks">
+        <a href="#home">Home</a>
+        <a href="#course">Course</a>
+        <a href="#about">About</a>
+        <a href="#help">Help</a>
+      </div>
+    </nav>
+
+    <div class="slider" id="slider">
+      <div class="slides">
+        <img src="/Web/img/1.jpeg" alt="Slide 1" />
+        <img src="/Web/img/2.jpeg" alt="Slide 2" />
+        <img src="/Web/img/3.jpg" alt="Slide 3" />
+      </div>
+      <div class="navigation">
+        <button id="prev">&#10094;</button>
+        <button id="next">&#10095;</button>
+      </div>
+    </div>
+    <!--Teacher Card-->
+    <div class="teacher-section">
+      <h1>Our Teachers</h1>
+      <div class="teacher-cards">
+        <div class="teacher-card">
+          <img src="/Web/img/1.jpeg" alt="Teacher 1" />
+          <div class="content">
+            <h3>John Doe</h3>
+            <p>Expert in Mathematics</p>
+          </div>
+        </div>
+        <div class="teacher-card">
+          <img src="/Web/img/2.jpeg" alt="Teacher 2" />
+          <div class="content">
+            <h3>Jane Smith</h3>
+            <p>Science Specialist</p>
+          </div>
+        </div>
+        <div class="teacher-card">
+          <img src="/Web/img/3.jpg" alt="Teacher 3" />
+          <div class="content">
+            <h3>Mark Wilson</h3>
+            <p>History Educator</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!---Course Card Section-->
+    <div class="course-section">
+      <h1>Our Courses</h1>
+      <div class="see-all">
+        <button id="seeAllButton">See All</button>
+      </div>
+      <div class="course-cards" id="courseCards">
+        <!-- Cards will be added dynamically using JavaScript -->
+      </div>
+    </div>
+
+    <script>
+      // const toggleButton = document.getElementById("toggleButton");
+      // const navLinks = document.getElementById("navLinks");
+
+      // toggleButton.addEventListener("click", () => {
+      //   navLinks.classList.toggle("active");
+      // });
+
+      // const slider = document.getElementById("slider");
+      // const slides = slider.querySelector(".slides");
+      // const images = slides.querySelectorAll("img");
+      // const prev = document.getElementById("prev");
+      // const next = document.getElementById("next");
+
+      // let index = 0;
+
+      // function showSlide(newIndex) {
+      //   if (newIndex < 0) {
+      //     index = images.length - 1;
+      //   } else if (newIndex >= images.length) {
+      //     index = 0;
+      //   } else {
+      //     index = newIndex;
+      //   }
+      //   slides.style.transform = `translateX(-${index * 100}%)`;
+      // }
+
+      // prev.addEventListener("click", () => showSlide(index - 1));
+      // next.addEventListener("click", () => showSlide(index + 1));
+
+      const toggleButton = document.getElementById("toggleButton");
+      const navLinks = document.getElementById("navLinks");
+
+      toggleButton.addEventListener("click", () => {
+        navLinks.classList.toggle("active");
+      });
+
+      const slider = document.getElementById("slider");
+      const slides = slider.querySelector(".slides");
+      const images = slides.querySelectorAll("img");
+      const prev = document.getElementById("prev");
+      const next = document.getElementById("next");
+
+      let index = 0;
+
+      function showSlide(newIndex) {
+        if (newIndex < 0) {
+          index = images.length - 1;
+        } else if (newIndex >= images.length) {
+          index = 0;
+        } else {
+          index = newIndex;
+        }
+        slides.style.transform = `translateX(-${index * 100}%)`;
+      }
+
+      prev.addEventListener("click", () => showSlide(index - 1));
+      next.addEventListener("click", () => showSlide(index + 1));
+
+      setInterval(() => {
+        showSlide(index + 1);
+      }, 5000); // Automatically change slides every 5 seconds
+
+      //Course Card Function
+
+      const courses = [
+        {
+          title: "HTML",
+          description:
+            "HTML (Hyper Text Markup Language) Create a web pages show and deisgne minified. btw, I uploaded the original version here: File:HTML5 Logo.svg. The original version is actually colored, but there's something not supported by MediaWiki",
+          image: "https://img-c.udemycdn.com/course/750x422/6104131_6187_3.jpg",
+          rating: 5,
+          price: "$ 1500",
+        },
+        {
+          title: "Course 2",
+          description: "Advanced web development techniques.",
+          image: "https://via.placeholder.com/250x150",
+          rating: 4,
+        },
+        {
+          title: "Course 3",
+          description: "Master data science and analytics.",
+          image: "https://via.placeholder.com/250x150",
+          rating: 4.5,
+        },
+        {
+          title: "Course 4",
+          description: "Understanding AI and machine learning.",
+          image: "https://via.placeholder.com/250x150",
+          rating: 5,
+        },
+        {
+          title: "Course 5",
+          description: "Graphic design for beginners.",
+          image: "https://via.placeholder.com/250x150",
+          rating: 3.5,
+        },
+        {
+          title: "Course 6",
+          description: "Digital marketing strategies.",
+          image: "https://via.placeholder.com/250x150",
+          rating: 4,
+        },
+        {
+          title: "Course 7",
+          description: "Mobile app development.",
+          image: "https://via.placeholder.com/250x150",
+          rating: 5,
+        },
+        {
+          title: "Course 8",
+          description: "Cybersecurity essentials.",
+          image: "https://via.placeholder.com/250x150",
+          rating: 4,
+        },
+        {
+          title: "Course 9",
+          description: "Learn cloud computing.",
+          image: "https://via.placeholder.com/250x150",
+          rating: 4.5,
+        },
+        {
+          title: "Course 10",
+          description: "Photography and editing.",
+          image: "https://via.placeholder.com/250x150",
+          rating: 5,
+        },
+        {
+          title: "Course 8",
+          description: "Cybersecurity essentials.",
+          image: "https://via.placeholder.com/250x150",
+          rating: 4,
+        },
+        {
+          title: "Course 9",
+          description: "Learn cloud computing.",
+          image: "https://via.placeholder.com/250x150",
+          rating: 4.5,
+        },
+      ];
+
+      const courseCards = document.getElementById("courseCards");
+      const seeAllButton = document.getElementById("seeAllButton");
+      let showAll = false;
+
+      function renderCourses() {
+        courseCards.innerHTML = ""; // Clear existing cards
+        const coursesToShow = showAll ? courses : courses.slice(0, 4);
+        coursesToShow.forEach((course) => {
+          const card = document.createElement("div");
+          card.classList.add("course-card");
+          card.innerHTML = `
+                    <img src="${course.image}" alt="${course.title}">
+                    <div class="content">
+                        <h3 class="description">${course.title}</h3>
+                        <p class="description">${course.description}</p>
+                        <h2>${course.price}</h2>
+                        <div class="rating">${"★".repeat(
+                          Math.floor(course.rating)
+                        )}${"☆".repeat(5 - Math.floor(course.rating))}</div>
+                        <div class="actions">
+                            <button class="buy-btn">Buy Now</button>
+                            <button class="demo-btn">Demo</button>
+                        </div>
+                    </div>
+                `;
+          courseCards.appendChild(card);
+        });
+      }
+
+      seeAllButton.addEventListener("click", () => {
+        showAll = !showAll;
+        seeAllButton.textContent = showAll ? "Show Less" : "See All";
+        renderCourses();
+      });
+
+      // Initial render
+      renderCourses();
+    </script>
+  </body>
+</html>
